@@ -38,7 +38,7 @@ class Database {
     }
 
     // sanitize query variables
-    public function escape_string($string) {
+    public function escapeString($string) {
         return $this->connection->real_escape_string($string);
     }
 }

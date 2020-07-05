@@ -10,7 +10,7 @@
 
             <?php  
 
-            $user = User::findById(1);
+            $user = User::findById(2);
             echo "<br>username: " . $user->username;
             echo "<br>first name: " . $user->first_name;
             echo "<br>last name: " . $user->last_name;

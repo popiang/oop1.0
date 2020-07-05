@@ -14,7 +14,7 @@ class User {
 
     public static function findById($id) {
         $user = self::findThisQuery("SELECT * FROM users WHERE id = $id LIMIT 1");
-        return $user[0];
+        return !empty($user) ? $user[0] : false;
     }
 
     // execute passed over query
@@ -57,6 +57,24 @@ class User {
 
         return array_key_exists($attribute, $object_properties);
     }
+
+    // verify user from login page
+    public static function verifyUser($username, $password) {
+        
+        global $database;
+
+        $username = $database->escapeString($username);
+        $password = $database->escapeString($password);
+
+        $sql = "SELECT * FROM users WHERE ";
+        $sql .= "username = '$username' AND ";
+        $sql .= "password = '$password' ";
+        $sql .= "LIMIT 1";
+
+        $user = self::findThisQuery($sql);
+
+        return !empty($user) ? $user[0] : false;
+    }    
 }
 
 ?>
