@@ -1,5 +1,6 @@
 <?php  
 
+// auto load class if forgotten to be included
 function classAutoLoader($class) {
 
     $class = strtolower($class);
@@ -12,8 +13,10 @@ function classAutoLoader($class) {
     }
 }
 
+// registering the auto load function
 spl_autoload_register('classAutoLoader');
 
+// redirecting user to the provided location
 function redirect($location) {
     header("Location: {$location}");
 }
