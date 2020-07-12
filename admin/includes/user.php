@@ -75,6 +75,44 @@ class User {
 
         return !empty($user) ? $user[0] : false;
     }    
-}
+
+    // create and insert new user into database
+    public function create() {
+
+        global $database;
+
+        $sql = "INSERT INTO users (username, password, first_name, last_name) ";
+        $sql .= "VALUES ('";
+        $sql .= $database->escapeString($this->username) . "', '";
+        $sql .= $database->escapeString($this->password) . "', '";
+        $sql .= $database->escapeString($this->first_name) . "', '";
+        $sql .= $database->escapeString($this->last_name) . "')";
+
+        if ($database->query($sql)) {
+            $this->id = $database->theInsertId();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // update user info in database
+    public function update() {
+
+        global $database;
+
+        $sql = "UPDATE users SET ";
+        $sql .= "username = '" . $database->escapeString($this->username) . "', ";
+        $sql .= "password = '" . $database->escapeString($this->password) . "', ";
+        $sql .= "first_name = '" . $database->escapeString($this->first_name) . "', ";
+        $sql .= "last_name = '" . $database->escapeString($this->last_name) . "' ";
+        $sql .= "WHERE id = '" . $database->escapeString($this->id) . "'";
+
+        $database->query($sql);
+
+        return mysqli_affected_rows($database->connection) == 1 ? true : false;
+    }
+
+} // end of class
 
 ?>

@@ -41,6 +41,11 @@ class Database {
     public function escapeString($string) {
         return $this->connection->real_escape_string($string);
     }
+
+    // get the latest insert id
+    public function theInsertId() {
+        return mysqli_insert_id($this->connection);
+    }
 }
 
 $database = new Database();

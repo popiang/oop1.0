@@ -10,18 +10,24 @@
 
             <?php  
 
-            $user = User::findById(2);
-            echo "<br>username: " . $user->username;
-            echo "<br>first name: " . $user->first_name;
-            echo "<br>last name: " . $user->last_name;
+            // $user = new User();
+            // $user->username = "john";
+            // $user->password = "abc123!@#";
+            // $user->first_name = "John";
+            // $user->last_name = "Petrucci";
 
-            echo "<br>";
-
-            $users = User::findAllUsers();
-            foreach ($users as $user) {
-                echo "<br>username: " . $user->username;
-            }
+            // $result = $user->create();
             
+            // if ($result) {
+            //     echo "<br>User inserted successfully";
+            // } else {
+            //     echo "<br>User insert failed!!";
+            // }
+
+            $user = User::findById(6);
+            $user->last_name = "Richard";
+            $user->update();
+
             ?>
 
             <ol class="breadcrumb">

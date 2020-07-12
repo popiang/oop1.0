@@ -1,0 +1,28 @@
+1. create pages and databases
+2. create database config file
+3. create init file
+4. create database class
+    - automatic db connection 
+    - create query method
+5. create user class
+    - find all method
+    - find by ID method
+    - query method
+    - instantion method
+6. create session class 
+    - check login method
+    - login method
+    - logout method
+    - control access to admin
+    - login pages
+    - verify method
+    - message method
+    - output feedback to user
+7. learn file basics
+8. learn upload files
+9. create crud methods
+    - create method
+    - insert last id method
+10.update method
+    - update method
+    - test query
