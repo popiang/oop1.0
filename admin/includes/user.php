@@ -113,6 +113,19 @@ class User {
         return mysqli_affected_rows($database->connection) == 1 ? true : false;
     }
 
+    // delete user in database
+    public function delete() {
+
+        global $database;
+
+        $sql = "DELETE FROM users WHERE ";
+        $sql .= "id = " . $database->escapeString($this->id);
+
+        $database->query($sql);
+
+        return mysqli_affected_rows($database->connection) == 1 ? true : false;
+    }
+
 } // end of class
 
 ?>

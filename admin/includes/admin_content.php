@@ -10,23 +10,12 @@
 
             <?php  
 
-            // $user = new User();
-            // $user->username = "john";
-            // $user->password = "abc123!@#";
-            // $user->first_name = "John";
-            // $user->last_name = "Petrucci";
-
-            // $result = $user->create();
-            
-            // if ($result) {
-            //     echo "<br>User inserted successfully";
-            // } else {
-            //     echo "<br>User insert failed!!";
-            // }
-
-            $user = User::findById(6);
-            $user->last_name = "Richard";
-            $user->update();
+            $user = User::findById(7);
+            if ($user->delete()) {
+                echo "<br>User deleted";
+            } else {
+                echo "<br>Delete failed!!!";
+            }
 
             ?>
 
