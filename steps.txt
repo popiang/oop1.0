@@ -28,4 +28,11 @@
     - test query
 11.delete method
     - create delete method and test
+12.abstraction
+    - save method to create or update user
+    - save table name in variable
+    - create get properties method
+    - create clean properties method
+    - do abstraction in create method
+    - do abstraction in update method
 

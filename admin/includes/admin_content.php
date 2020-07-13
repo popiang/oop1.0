@@ -10,12 +10,17 @@
 
             <?php  
 
-            $user = User::findById(7);
-            if ($user->delete()) {
-                echo "<br>User deleted";
-            } else {
-                echo "<br>Delete failed!!!";
-            }
+            // $user = User::findById(10);
+            // $user->last_name = "Jamaluddin";
+            // $user->delete();
+
+            $user = new User();
+            $user->username = "buckethead";
+            $user->password = "abc123!@#";
+            $user->first_name = "Bucket";
+            $user->last_name = "Head";
+
+            $user->save();
 
             ?>
 

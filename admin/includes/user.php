@@ -2,6 +2,8 @@
 
 class User {
 
+    protected static $dbTableFields = array('username', 'password', 'first_name', 'last_name');
+    protected static $dbTable = "users";
     public $id;
     public $username;
     public $password;
@@ -58,6 +60,37 @@ class User {
         return array_key_exists($attribute, $object_properties);
     }
 
+    // get all the properties of this class
+    protected function properties() {
+        
+        $properties = array();
+
+        // looping the dbTableFields array variable
+        foreach (self::$dbTableFields as $dbField) {
+            // checking if the field exist in the class
+            if (property_exists($this, $dbField)) {
+                // assign the value of the field of this class object to the respective field
+                $properties[$dbField] = $this->$dbField;
+            } 
+        }
+
+        return $properties;
+    }
+
+    // clean the properties using function from database class
+    protected function cleanProperties() {
+
+        global $database;
+
+        $cleanProperties = array();
+
+        foreach ($this->properties() as $key => $value) {
+            $cleanProperties[$key] = $database->escapeString($value); 
+        }
+
+        return $cleanProperties;
+    }
+
     // verify user from login page
     public static function verifyUser($username, $password) {
         
@@ -66,7 +99,7 @@ class User {
         $username = $database->escapeString($username);
         $password = $database->escapeString($password);
 
-        $sql = "SELECT * FROM users WHERE ";
+        $sql = "SELECT * FROM " . self::$dbTable . " WHERE ";
         $sql .= "username = '$username' AND ";
         $sql .= "password = '$password' ";
         $sql .= "LIMIT 1";
@@ -76,17 +109,27 @@ class User {
         return !empty($user) ? $user[0] : false;
     }    
 
+    // create or update user in database
+    public function save() {
+        isset($this->id) ? $this->update() : $this->create();
+    }
+
     // create and insert new user into database
     public function create() {
 
         global $database;
+        $properties = $this->cleanProperties();
 
-        $sql = "INSERT INTO users (username, password, first_name, last_name) ";
-        $sql .= "VALUES ('";
-        $sql .= $database->escapeString($this->username) . "', '";
-        $sql .= $database->escapeString($this->password) . "', '";
-        $sql .= $database->escapeString($this->first_name) . "', '";
-        $sql .= $database->escapeString($this->last_name) . "')";
+        // dynamic insert sql statement
+        $sql = "INSERT INTO " . self::$dbTable . " (" . implode(",", array_keys($properties)) . ") ";
+        $sql .= "VALUES ('" . implode("','", array_values($properties)) . "')";
+
+        // $sql = "INSERT INTO " . self::$dbTable . " (username, password, first_name, last_name) ";
+        // $sql .= "VALUES ('";
+        // $sql .= $database->escapeString($this->username) . "', '";
+        // $sql .= $database->escapeString($this->password) . "', '";
+        // $sql .= $database->escapeString($this->first_name) . "', '";
+        // $sql .= $database->escapeString($this->last_name) . "')";
 
         if ($database->query($sql)) {
             $this->id = $database->theInsertId();
@@ -101,12 +144,25 @@ class User {
 
         global $database;
 
-        $sql = "UPDATE users SET ";
-        $sql .= "username = '" . $database->escapeString($this->username) . "', ";
-        $sql .= "password = '" . $database->escapeString($this->password) . "', ";
-        $sql .= "first_name = '" . $database->escapeString($this->first_name) . "', ";
-        $sql .= "last_name = '" . $database->escapeString($this->last_name) . "' ";
+        $properties = $this->cleanProperties();
+        $properties_pairs = array();
+
+        // create the assignment statement for the sql query
+        foreach ($properties as $key => $value) {
+            $properties_pairs[] = "{$key} = '{$value}'";
+        }
+
+        // dynamic update sql script
+        $sql = "UPDATE " . self::$dbTable . " SET ";
+        $sql .= implode(",", $properties_pairs);
         $sql .= "WHERE id = '" . $database->escapeString($this->id) . "'";
+
+        // $sql = "UPDATE " . self::$dbTable . " SET ";
+        // $sql .= "username = '" . $database->escapeString($this->username) . "', ";
+        // $sql .= "password = '" . $database->escapeString($this->password) . "', ";
+        // $sql .= "first_name = '" . $database->escapeString($this->first_name) . "', ";
+        // $sql .= "last_name = '" . $database->escapeString($this->last_name) . "' ";
+        // $sql .= "WHERE id = '" . $database->escapeString($this->id) . "'";
 
         $database->query($sql);
 
@@ -118,7 +174,7 @@ class User {
 
         global $database;
 
-        $sql = "DELETE FROM users WHERE ";
+        $sql = "DELETE FROM " . self::$dbTable . " WHERE ";
         $sql .= "id = " . $database->escapeString($this->id);
 
         $database->query($sql);
@@ -129,3 +185,4 @@ class User {
 } // end of class
 
 ?>
+
