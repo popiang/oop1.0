@@ -14,13 +14,28 @@
             // $user->last_name = "Jamaluddin";
             // $user->delete();
 
-            $user = new User();
-            $user->username = "buckethead";
-            $user->password = "abc123!@#";
-            $user->first_name = "Bucket";
-            $user->last_name = "Head";
+            // $user = new User();
+            // $user->username = "buckethead";
+            // $user->password = "abc123!@#";
+            // $user->first_name = "Bucket";
+            // $user->last_name = "Head";
 
-            $user->save();
+            // $user->save();
+
+            // $photo = new Photo();
+            // $photo->title = "my third pic";
+            // $photo->description = "my third pic";
+
+            $photo = Photo::findById(3);
+            $photo->title = "my third new pic";
+
+            $photo->save();
+        
+            $photos = Photo::findAll();
+
+            foreach ($photos as $photo) {
+                echo "<br>" . $photo->title;
+            }            
 
             ?>
 

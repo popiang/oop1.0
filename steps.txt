@@ -35,4 +35,19 @@
     - create clean properties method
     - do abstraction in create method
     - do abstraction in update method
+    - abstract the rest of user class method
+13.inheritance
+    - create db object class
+    - move all abstracted methods from user class to db object class
+    - user class extends db object class
+    - db object -> change self:: to static::
+    - use late static binding in db object class to call it's sub class
+    - add db object & user class in init.php
+14.photo class
+    - create photo class, extends db object class
+    - add photo class in init.php
+    - add all the variables
+    - test the new class
+    
+
 
